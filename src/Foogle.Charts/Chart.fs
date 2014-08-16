@@ -8,17 +8,17 @@ type Chart =
   static member GeoChart(data:seq<string * #value>, ?Label, ?Region, ?DisplayMode) =
     { Data = Table.fromKeyValue Label data
       Options = Options.Empty
-      Chart = GeoChart { GeoChart.Region = Region; GeoChart.DisplayMode = DisplayMode } }
+      Chart = GeoChart { GeoChart.region = Region; GeoChart.displayMode = DisplayMode } }
 
   static member GeoChart(data:seq<string * #value * #value>, ?Labels, ?Region, ?DisplayMode) =
     { Data = Table.fromKey2Values Labels data
       Options = Options.Empty
-      Chart = GeoChart { GeoChart.Region = Region; GeoChart.DisplayMode = DisplayMode } }
+      Chart = GeoChart { GeoChart.region = Region; GeoChart.displayMode = DisplayMode } }
 
   static member PieChart(data:seq<string * #value>, ?Label, ?PieHole) =
     { Data = Table.fromKeyValue Label data
       Options = Options.Empty
-      Chart = PieChart { PieChart.PieHole = PieHole } }
+      Chart = PieChart { PieChart.pieHole = PieHole } }
 
 
 // ------------------------------------------------------------------------------------------------
@@ -28,15 +28,11 @@ type Chart =
 type Chart with
   static member WithTitle(?Title:string) = 
     fun (fc:FoogleChart) -> 
-      { fc with Options = { fc.Options with Title = Title } }
+      { fc with Options = { fc.Options with title = Title } }
 
   static member WithPie(?PieHole:float) = 
     fun (fc:FoogleChart) -> 
-      { fc with Chart = match fc.Chart with PieChart pc -> PieChart { pc with PieHole = PieHole } | _ -> invalidOp "WithPie only works on pie charts" }
-
-  static member WithOutput(?Engine) = 
-    fun (fc:FoogleChart) -> 
-      { fc with Options = { fc.Options with Engine = Engine } }
+      { fc with Chart = match fc.Chart with PieChart pc -> PieChart { pc with pieHole = PieHole } | _ -> invalidOp "WithPie only works on pie charts" }
 
   /// Specifies a mapping between color column values and colors or a gradient scale. 
   ///
@@ -61,8 +57,8 @@ type Chart with
   ///    value, and the last color as the highest.
   static member WithColorAxis(?MinValue:float, ?MaxValue:float, ?Values:seq<float>, ?Colors:seq<Color>) = 
     fun (fc:FoogleChart) -> 
-      let ca = { MinValue = MinValue; MaxValue = MaxValue; Values = Values; Colors = Colors }
-      { fc with Options = { fc.Options with ColorAxis = Some ca } }
+      let ca = { minValue = MinValue; maxValue = MaxValue; values = Values; colors = Colors }
+      { fc with Options = { fc.Options with colorAxis = Some ca } }
 
 // ------------------------------------------------------------------------------------------------
 // Extension methods that provide object-oriented access to configuration
@@ -93,5 +89,5 @@ module FoogleChartExtensions =
     ///    your values, plus calculated intermediary values, with the first color as the smallest 
     ///    value, and the last color as the highest.
     member fc.WithColorAxis(?MinValue:float, ?MaxValue:float, ?Values:seq<float>, ?Colors:seq<Color>) = 
-      let ca = { MinValue = MinValue; MaxValue = MaxValue; Values = Values; Colors = Colors }
-      { fc with Options = { fc.Options with ColorAxis = Some ca } }
+      let ca = { minValue = MinValue; maxValue = MaxValue; values = Values; colors = Colors }
+      { fc with Options = { fc.Options with colorAxis = Some ca } }

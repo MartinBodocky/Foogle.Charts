@@ -53,7 +53,7 @@ let CreateHighchartsChart (chart:FoogleChart) =
 
       // Format common chart options
       let opts = chart.Options
-      yield! opts.Title |> formatOptRecd "title" (fun title -> [ "text", JsonValue.String title ])
+      yield! opts.title |> formatOptRecd "title" (fun title -> [ "text", JsonValue.String title ])
 
       // TODO: opts.ColorAxis
 
