@@ -13,6 +13,21 @@ Reference
 open Foogle
 open System.Windows.Forms
 
+(**
+Scatter Chart
+**)
+(*** define-output:scat1 ***)
+let ageWieght =
+  [ 8.0, 12.0
+    4.0, 3.5
+    11.0, 14.0
+    4.0, 5.0
+    3.0, 3.5
+    6.5, 7.0]
+Chart.ScatterChart(ageWieght, "Age", "Weight", Labels = ["Age"; "Weight"])
+|> Chart.WithTitle(Title = "Age vs Weight comparison")
+(*** include-it:scat1 ***)
+
 (** 
 Geo chart
 *)

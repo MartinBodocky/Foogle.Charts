@@ -19,6 +19,12 @@ type Table =
 [<CompilationRepresentation(CompilationRepresentationFlags.ModuleSuffix)>]
 module internal Table = 
 
+  let fromKeyValue2 labels (values:seq<#value * #value>) =
+    {
+        Labels = defaultArg labels ["Value 1"; "Value 2"]
+        Rows = values |> Seq.map (fun (k,v) -> [box k; box v])
+    }
+
   let fromKeyValue label (values:seq<string * #value>) = 
     { Labels = [""; defaultArg label "Value" ]
       Rows = values |> Seq.map (fun (k, v) -> [box k; box v]) }
@@ -161,7 +167,7 @@ module ScatterChart =
             vAxis : vAxis
             hAxis : hAxis
             Legend : string
-            Width : int 
+//            Width : int 
         }
 
 

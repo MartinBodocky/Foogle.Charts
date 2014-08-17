@@ -98,29 +98,29 @@ let toJSON v =
     JsonConvert.SerializeObject(v,Formatting.Indented, settings)
 
 let CreateGoogleChart (chart:FoogleChart) = 
-  let options = 
-   [| // Format specific chart options
-      match chart.Chart with
-      | GeoChart(g) ->
-          yield! formatOptStr "region" g.region 
-          yield! formatDefUnionLo "displayMode" "auto" g.displayMode
-      | PieChart(p) ->
-          yield! formatOptNum "pieHole" p.pieHole
-      
-      // Format common chart options
-      let opts = chart.Options
-      yield! formatOptStr "title" opts.title
-      yield! opts.colorAxis |> formatOpt (fun c ->
-        [ yield! c.minValue |> formatOptNum "minValue" 
-          yield! c.maxValue |> formatOptNum "maxValue" 
-          yield! c.colors |> formatOpt (fun clrs -> 
-            [ "colors", JsonValue.Array [| for c in clrs -> JsonValue.String c |] ])  ])
-
-      //match sizeAxis with Some(s1, s2) -> yield "sizeAxis", JsonValue.Record [| "minValue", JsonValue.Number(decimal s1); "maxValue", JsonValue.Number(decimal s2) |] | _ -> ()
-   |] |> JsonValue.Record
-
-  let options2 = chart.Options |> toJSON 
-  let options3 = options.ToString(JsonSaveOptions.DisableFormatting)
+//  let options = 
+//   [| // Format specific chart options
+//      match chart.Chart with
+//      | GeoChart(g) ->
+//          yield! formatOptStr "region" g.region 
+//          yield! formatDefUnionLo "displayMode" "auto" g.displayMode
+//      | PieChart(p) ->
+//          yield! formatOptNum "pieHole" p.pieHole
+//      
+//      // Format common chart options
+//      let opts = chart.Options
+//      yield! formatOptStr "title" opts.title
+//      yield! opts.colorAxis |> formatOpt (fun c ->
+//        [ yield! c.minValue |> formatOptNum "minValue" 
+//          yield! c.maxValue |> formatOptNum "maxValue" 
+//          yield! c.colors |> formatOpt (fun clrs -> 
+//            [ "colors", JsonValue.Array [| for c in clrs -> JsonValue.String c |] ])  ])
+//
+//      //match sizeAxis with Some(s1, s2) -> yield "sizeAxis", JsonValue.Record [| "minValue", JsonValue.Number(decimal s1); "maxValue", JsonValue.Number(decimal s2) |] | _ -> ()
+//   |] |> JsonValue.Record
+//
+//  let options2 = chart.Options |> toJSON 
+//  let options3 = options.ToString(JsonSaveOptions.DisableFormatting)
 
   let opts_str = new StringBuilder()
   let opts =
@@ -134,7 +134,12 @@ let CreateGoogleChart (chart:FoogleChart) =
             | PieChart(p) ->
                 let p_chart = p.GetType().GetProperties()
                 for i in 0 .. p_chart.Length - 1 do
-                    yield! [p_chart.[i].Name, (p_chart.[i].GetValue(p) |> toJSON )] 
+                    yield! [p_chart.[i].Name, (p_chart.[i].GetValue(p) |> toJSON )]
+
+            | ScatterChart(s) ->
+                let s_chart = s.GetType().GetProperties()
+                for i in 0 .. s_chart.Length - 1 do
+                    yield! [s_chart.[i].Name, (s_chart.[i].GetValue(s) |> toJSON)] 
         
             let p_gen = chart.Options.GetType().GetProperties()
             for i in 0 .. p_gen.Length - 1 do

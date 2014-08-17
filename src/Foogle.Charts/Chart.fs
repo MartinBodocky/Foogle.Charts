@@ -4,6 +4,8 @@
 // Primitive chart types supported by Foogle
 // ------------------------------------------------------------------------------------------------
 
+
+
 type Chart =
   static member GeoChart(data:seq<string * #value>, ?Label, ?Region, ?DisplayMode) =
     { Data = Table.fromKeyValue Label data
@@ -19,6 +21,18 @@ type Chart =
     { Data = Table.fromKeyValue Label data
       Options = Options.Empty
       Chart = PieChart { PieChart.pieHole = PieHole } }
+
+  static member ScatterChart(data:seq<#value * #value>,
+                                hAxis:string, vAxis:string, ?Labels) =
+    {
+        Data = Table.fromKeyValue2 Labels data
+        Options = Options.Empty
+        Chart = ScatterChart {
+                    vAxis = { Title = vAxis; MinValue = 0; MaxValue = 15 }
+                    hAxis = { Title = hAxis; MinValue = 0; MaxValue = 15}
+                    Legend = "none"
+                }
+    }
 
 
 // ------------------------------------------------------------------------------------------------
