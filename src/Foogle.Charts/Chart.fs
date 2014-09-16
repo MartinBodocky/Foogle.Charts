@@ -28,9 +28,9 @@ type Chart =
         Data = Table.fromKeyValue2 Labels data
         Options = Options.Empty
         Chart = ScatterChart {
-                    vAxis = { Title = vAxis; MinValue = 0; MaxValue = 15 }
-                    hAxis = { Title = hAxis; MinValue = 0; MaxValue = 15}
-                    Legend = "none"
+                    vAxis = { title = vAxis; minValue = 0; maxValue = 15 }
+                    hAxis = { title = hAxis; minValue = 0; maxValue = 15}
+                    legend = "none"
                 }
     }
 

@@ -149,16 +149,16 @@ module PieChart =
 
 type hAxis =
     {
-        Title : string
-        MaxValue : int
-        MinValue : int
+        title : string
+        maxValue : int
+        minValue : int
     }
 
 type vAxis =
     {
-        Title : string
-        MaxValue : int
-        MinValue : int
+        title : string
+        maxValue : int
+        minValue : int
     }
 
 module ScatterChart =
@@ -166,8 +166,8 @@ module ScatterChart =
         {
             vAxis : vAxis
             hAxis : hAxis
-            Legend : string
-//            Width : int 
+            legend : string
+//            width : int 
         }
 
 
